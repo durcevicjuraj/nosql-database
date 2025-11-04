@@ -1,0 +1,159 @@
+// 1. ZADATAK A
+
+127.0.0.1:6379> SET user:1:name "juraj_durcevic"
+OK
+127.0.0.1:6379> GET user:1:name
+"juraj_durcevic"
+127.0.0.1:6379> GET user:2:name
+(nil)
+127.0.0.1:6379> EXISTS user:2:name
+(integer) 0
+127.0.0.1:6379> 
+
+// 1. ZADATAK B
+
+127.0.0.1:6379> SET cache:page:home "Ovo je HTML sadrzaj pocetne stranice" EX 20
+OK
+127.0.0.1:6379> GET cache:page:home
+"Ovo je HTML sadrzaj pocetne stranice"
+127.0.0.1:6379> TTL cache:page:home
+(integer) 5
+127.0.0.1:6379> GET cache:page:home
+(nil)
+
+// 1. ZADATAK C
+
+127.0.0.1:6379> SET page_views:article:123 0
+OK
+127.0.0.1:6379> INCR page_views:article:123
+(integer) 1
+127.0.0.1:6379> INCR page_views:article:123
+(integer) 2
+127.0.0.1:6379> INCR page_views:article:123
+(integer) 3
+127.0.0.1:6379> DECR page_views:article:123
+(integer) 2
+127.0.0.1:6379> GET page_views:article:123
+"2"
+
+// 2. ZADATAK A 
+
+127.0.0.1:6379> HSET user:101 username "pperic"
+(integer) 1
+127.0.0.1:6379> HSET user:101 email "pero.peric@example.com"
+(integer) 1
+127.0.0.1:6379> HSET user:101 points 50
+(integer) 1
+127.0.0.1:6379> HSET user:101 status "aktivan"
+(integer) 1
+
+// 2. ZADATAK B
+
+127.0.0.1:6379> HGET user:101 email
+"pero.peric@example.com"
+127.0.0.1:6379> HGETALL user:101
+1) "username"
+2) "pperic"
+3) "email"
+4) "pero.peric@example.com"
+5) "points"
+6) "50"
+7) "status"
+8) "aktivan"
+127.0.0.1:6379> HINCRBY user:101 points 25
+(integer) 75
+127.0.0.1:6379> HSET user:101 status "premium"
+(integer) 0
+127.0.0.1:6379> HGETALL user:101
+1) "username"
+2) "pperic"
+3) "email"
+4) "pero.peric@example.com"
+5) "points"
+6) "75"
+7) "status"
+8) "premium"
+
+// 3. ZADATAK A 
+
+127.0.0.1:6379> LPUSH user:101:activity_logs "Prijavio se na sustav."
+(integer) 1
+127.0.0.1:6379> LPUSH user:101:activity_logs "Pogledao proizvod ID: 45."
+(integer) 2
+127.0.0.1:6379> LPUSH user:101:activity_logs "Odjavio se sa sustava."
+(integer) 3
+
+// 3. ZADATAK B
+
+127.0.0.1:6379> LRANGE user:101:activity_logs 0 4
+1) "Odjavio se sa sustava."
+2) "Pogledao proizvod ID: 45."
+3) "Prijavio se na sustav."
+127.0.0.1:6379> LPUSH user:101:activity_logs "Ponovno se prijavio."
+(integer) 4
+127.0.0.1:6379> LTRIM user:101:activity_logs 0 2
+OK
+127.0.0.1:6379> LRANGE user:101:activity_logs 0 4
+1) "Ponovno se prijavio."
+2) "Odjavio se sa sustava."
+3) "Pogledao proizvod ID: 45."
+
+// 4. ZADATAK A
+
+127.0.0.1:6379> SADD article:123:tags "nosql"
+(integer) 1
+127.0.0.1:6379> SADD article:123:tags "database"
+(integer) 1
+127.0.0.1:6379> SADD article:123:tags "redis"
+(integer) 1
+127.0.0.1:6379> SADD article:123:tags "redis"
+(integer) 0
+127.0.0.1:6379> SMEMBERS article:123:tags
+1) "nosql"
+2) "database"
+3) "redis"
+
+// 4. ZADATAK B 
+
+127.0.0.1:6379> SISMEMBER article:123:tags "database"
+(integer) 1
+127.0.0.1:6379> SISMEMBER article:123:tags "sql"
+(integer) 0
+127.0.0.1:6379> SCARD article:123:tags
+(integer) 3
+127.0.0.1:6379> SADD article:456:tags "redis"
+(integer) 1
+127.0.0.1:6379> SADD article:456:tags "caching"
+(integer) 1
+127.0.0.1:6379> SADD article:456:tags "performance"
+(integer) 1
+127.0.0.1:6379> SINTER article:123:tags article:456:tags
+1) "redis"
+
+
+// 5. ZADATAK A 
+
+127.0.0.1:6379> ZADD game:leaderboard 1500 "Ana"
+(integer) 1
+127.0.0.1:6379> ZADD game:leaderboard 2200 "Pero"
+(integer) 1
+127.0.0.1:6379> ZADD game:leaderboard 1850 "Iva"
+(integer) 1
+
+// 5. ZADATAK B
+
+127.0.0.1:6379> ZINCRBY game:leaderboard 300 "Ana"
+"1800"
+127.0.0.1:6379> ZADD game:leaderboard 2500 "Marko"
+(integer) 1
+127.0.0.1:6379> ZREVRANGE game:leaderboard 0 2 WITHSCORES
+1) "Marko"
+2) "2500"
+3) "Pero"
+4) "2200"
+5) "Iva"
+6) "1850"
+127.0.0.1:6379> ZSCORE game:leaderboard "Iva"
+"1850"
+127.0.0.1:6379> ZREVRANK game:leaderboard "Pero"
+(integer) 1
