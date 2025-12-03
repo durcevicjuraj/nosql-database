@@ -1,0 +1,48 @@
+exit
+db.restaurants.find().sort({name: 1}).skip(10).limit(10)
+db.restaurants.find().sort({"grades.date": -1}).limit(5)
+db.restaurants.find({"grades.date": {$gt: 0}}).sort({"grades.date": 1}).limit(5)
+db.restaurants.find().sort({"grades.date": 1}).limit(5)
+db.restaurants.find({borough: "Bronx"}).sort({name: -1}).limit(10)
+db.restaurants.find({borough: "Bronx"}).sort({name: 1}).limit(10)
+db.restaurants.find({borough: "Bronx"}).sort({name: 1})
+db.restaurants.find({ restaurant_id: "40356018" })
+db.restaurants.deleteOne({restaurant_id: "40356018"})
+db.restaurants.find({ restaurant_id: "40356018" })
+db.restaurants.find( {cuisine: "American"}).limit(3)
+db.restaurants.updateMany( {cuisine: "American"}, { $set: {inspection_due: true}} )
+db.restaurants.find({ name: "Tu-Lu'S Gluten-Free Bakery"})
+db.restaurants.updateOne({ name: "Tu-Lu'S Gluten-Free Bakery"}, {$set: {chef_name: "Ana Anić"}})
+db.restaurants.find({ name: "Tu-Lu'S Gluten-Free Bakery"})
+db.restaurants.updateOne({ name: "Tu-Lu'S Gluten-Free Bakery"}, {$set: {cuisine: "Bakery"}})
+db.restaurants.find({ name: "Tu-Lu'S Gluten-Free Bakery"})
+db.restaurants.find({borough: "Queens"}, {name: 1, cuisine: 1, borough: 1, _id: 0})
+db.restaurants.find({borough: "Queens"}, {name: 1, cuisine: 1, borough: 0, _id: 0})
+db.restaurants.find({borough: "Queens"}, {name: 1, cuisine: 1, borough: 1, _id: 0})
+db.restaurants.find({borough: "Queens"}, {name: 1, cuisine: 1, borough: 1})
+db.restaurants.find({ $and: [{ cuisine: "American"}, { borough: "Manhattan"}, {"grades.score": {$gt: 70}}]}) 
+db.restaurants.find({ $or: [{ cuisine: "Italian"}, { borough: "Brooklyn"}]}) 
+db.restaurants.find({ &lv3> db.restaurants.find({ &or: [{ cuisine: "Italian"}, { borough: "Brooklyn"}]}) or: [{ cuisine: "Italian"}, { borough: "Br
+db.restaurants.find({ &lv3> db.restaurants.find({ &or: [{ cuisine: "Italian"}, { borough: "Brooklyn"}]}) or: [{ cuisine: "Italian"}, { borough: "Brooklyn"}]}) 
+db.restaurants.find({ &or: [{ cuisine: "Italian"}, { borough: "Brooklyn"}]}) 
+db.restaurants.find({ "grades.score": {$lte: 5}}).limit(1)
+db.restaurants.find({ "grades.score": {$gt: 90}}).limit(1)
+db.restaurants.find({ "grades.score": {$gt: 90}})
+db.restaurants.find({ "address.zipcode": "10075"}).limit(1)
+db.restaurants.find({ address {zipcode: "10075"}}).limit(1)
+db.restaurants.find({ address.zipcode: "10075"}).limit(1)
+db.restaurants.find({ cuisine: "Italian"}).limit(3)
+db.restaurants.find({ borough: "Manhattan"}).limit(3)
+db.restaurants.find({ borough: "Manhattan"})
+db.restaurants.find().limit(5)
+use lv3
+show collections
+use test
+show collections admin
+db.restaurants.find()
+db.restaurants
+show collections test
+db
+show dbs
+use lv3
+db.createUser({ user: "root", pwd: "example", roles: [{ role: 'root', db: "admin" }] })

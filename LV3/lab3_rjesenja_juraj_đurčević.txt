@@ -1,0 +1,103 @@
+1. A)
+
+lv3> show dbs
+admin   100.00 KiB
+config  108.00 KiB
+local    72.00 KiB
+lv3       4.07 MiB
+
+lv3> db
+lv3
+
+lv3> use test
+switched to db test
+test> show collections
+
+test> 
+
+
+
+1. B)
+
+lv3> db.restaurants.find().limit(5)
+
+
+
+1. C)
+
+lv3> db.restaurants.find({ borough: "Manhattan"}).limit(3)
+
+
+%%%%%%%%
+
+lv3> db.restaurants.find({ cuisine: "Italian"}).limit(3)
+
+
+1. D)
+
+lv3> db.restaurants.find({ "address.zipcode": "10075"}).limit(1)
+ 
+
+
+1. E)
+
+lv3> db.restaurants.find({ "grades.score": {$gt: 90}}).limit(1)
+
+lv3> db.restaurants.find({ "grades.score": {$lte: 5}}).limit(1)
+
+
+
+1. F)
+
+lv3> db.restaurants.find({ $or: [{ cuisine: "Italian"}, { borough: "Brooklyn"}]}) 
+
+lv3> db.restaurants.find({ $and: [{ cuisine: "American"}, { borough: "Manhattan"}, {"grades.score": {$gt: 70}}]}) 
+
+
+################################################
+
+2. A)
+
+lv3> db.restaurants.find({borough: "Queens"}, {name: 1, cuisine: 1, borough: 1})
+
+lv3> db.restaurants.find({borough: "Queens"}, {name: 1, cuisine: 1, borough: 1, _id: 0})
+
+2. B)
+
+lv3> db.restaurants.find({ name: "Tu-Lu'S Gluten-Free Bakery"})
+
+lv3> db.restaurants.updateOne({ name: "Tu-Lu'S Gluten-Free Bakery"}, {$set: {cuisine: "Bakery"}})
+
+lv3> db.restaurants.updateOne({ name: "Tu-Lu'S Gluten-Free Bakery"}, {$set: {chef_name: "Ana Anić"}})
+
+lv3> db.restaurants.find({ name: "Tu-Lu'S Gluten-Free Bakery"})
+
+2. C)
+
+lv3> db.restaurants.updateMany( {cuisine: "American"}, { $set: {inspection_due: true}} )
+
+lv3> db.restaurants.find( {cuisine: "American"}).limit(3)
+
+2. D)
+
+lv3> db.restaurants.find({ restaurant_id: "40356018" })
+
+lv3> db.restaurants.deleteOne({restaurant_id: "40356018"})
+{ acknowledged: true, deletedCount: 1 }
+
+lv3> db.restaurants.find({ restaurant_id: "40356018" })
+
+################################################
+
+3. A)
+
+lv3> db.restaurants.find({borough: "Bronx"}).sort({name: 1}).limit(10)
+
+lv3> db.restaurants.find({borough: "Bronx"}).sort({name: -1}).limit(10)
+
+3. B)
+
+lv3> db.restaurants.find().sort({"grades.date": -1}).limit(5)
+
+lv3> db.restaurants.find().sort({name: 1}).skip(10).limit(10)
+
