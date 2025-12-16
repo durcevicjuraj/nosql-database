@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  cassandra:
+    image: cassandra:4
+    container_name: nosql-cassandra-lab5
+    ports:
+      - "9042:9042"
+    environment:
+      - "CASSANDRA_DC=dc1"
+      - "CASSANDRA_RACK=rack1"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - cassandra-network
+
+  cassandra-web:
+    image: ipushc/cassandra-web:latest
+    container_name: cassandra-web-gui
+    ports:
+      - "3001:8083"
+    environment:
+      - "CASSANDRA_HOSTS=cassandra:9042"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    networks:
+      - cassandra-network
+
+networks:
+  cassandra-network:
+    driver: bridge

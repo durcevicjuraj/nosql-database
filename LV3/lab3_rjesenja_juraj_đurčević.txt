@@ -25,25 +25,24 @@ lv3> db.restaurants.find().limit(5)
 
 1. C)
 
-lv3> db.restaurants.find({ borough: "Manhattan"}).limit(3)
+lv3> db.restaurants.find({ borough: "Manhattan"})
 
 
-%%%%%%%%
 
-lv3> db.restaurants.find({ cuisine: "Italian"}).limit(3)
+lv3> db.restaurants.find({ cuisine: "Italian"})
 
 
 1. D)
 
-lv3> db.restaurants.find({ "address.zipcode": "10075"}).limit(1)
+lv3> db.restaurants.find({ "address.zipcode": "10075"})
  
 
 
 1. E)
 
-lv3> db.restaurants.find({ "grades.score": {$gt: 90}}).limit(1)
+lv3> db.restaurants.find({ "grades.score": {$gt: 90}})
 
-lv3> db.restaurants.find({ "grades.score": {$lte: 5}}).limit(1)
+lv3> db.restaurants.find({ "grades.score": {$lte: 5}})
 
 
 
